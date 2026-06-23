@@ -758,10 +758,22 @@
         throw new Error(data.error || 'Server error. Please try again.');
       }
 
-      document.getElementById('rental-form').style.opacity = '0.4';
-      document.getElementById('rental-form').style.pointerEvents = 'none';
+      // Show success message
       document.getElementById('success-msg').classList.add('visible');
       document.getElementById('success-msg').scrollIntoView({ behavior: 'smooth' });
+
+      // Reset form so another inquiry can be submitted
+      document.getElementById('rental-form').reset();
+      document.getElementById('selected-item').value = '';
+      document.querySelectorAll('.item-chip').forEach(c => c.classList.remove('selected'));
+      document.getElementById('delivery-fields').classList.remove('visible');
+      btn.disabled = false;
+      btn.textContent = 'Submit Rental Request';
+
+      // Hide success message after 6 seconds
+      setTimeout(() => {
+        document.getElementById('success-msg').classList.remove('visible');
+      }, 6000);
     } catch (err) {
       showError(err.message);
       btn.disabled = false;
