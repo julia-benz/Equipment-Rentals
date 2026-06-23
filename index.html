@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Peak Power Rentals — Boulder County</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:       #151a20;
+      --surface:  #1e262f;
+      --border:   #2e3a45;
+      --orange:   #f5600a;
+      --orange-dim: #c44b07;
+      --text:     #e8edf2;
+      --muted:    #8a9bab;
+      --font-display: 'Barlow Condensed', sans-serif;
+      --font-body:    'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      line-height: 1.6;
+    }
+
+    /* NAV */
+    nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      background: var(--bg);
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+    .nav-logo span { color: var(--orange); }
+    nav a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text); }
+    .nav-links { display: flex; gap: 2rem; align-items: center; }
+    .nav-cta {
+      background: var(--orange);
+      color: #fff !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 4px;
+      font-weight: 600 !important;
+    }
+    .nav-cta:hover { background: var(--orange-dim) !important; }
+
+    /* HERO */
+    .hero {
+      padding: 6rem 2rem 5rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero-eyebrow {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 1rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 9vw, 6.5rem);
+      font-weight: 800;
+      line-height: 0.95;
+      text-transform: uppercase;
+      letter-spacing: -0.01em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 .flicker {
+      color: var(--orange);
+      display: inline-block;
+      animation: flicker 4s infinite;
+    }
+    @keyframes flicker {
+      0%, 96%, 100% { opacity: 1; }
+      97%            { opacity: 0.3; }
+      98%            { opacity: 1; }
+      99%            { opacity: 0.5; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .flicker { animation: none; }
+    }
+    .hero p {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 540px;
+      margin-bottom: 2rem;
+    }
+    .hero-badges {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 99px;
+    }
+    .badge svg { color: var(--orange); }
+
+    /* EQUIPMENT */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .section-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 2.5rem;
+    }
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* EQUIPMENT CARDS */
+    .equipment-grid {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .eq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+    .eq-card:hover { border-color: var(--orange); }
+    .eq-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      display: block;
+      background: #0d1217;
+    }
+    /* SVG placeholder art */
+    .eq-img-placeholder {
+      width: 100%;
+      height: 200px;
+      background: #0d1217;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .eq-body { padding: 1.5rem; }
+    .eq-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--orange);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .eq-name {
+      font-family: var(--font-display);
+      font-size: 1.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .eq-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+    .eq-specs {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.5rem;
+    }
+    .eq-spec {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.82rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .eq-spec-label { color: var(--muted); }
+    .eq-spec-value { font-weight: 500; }
+    .btn-inquire {
+      display: block;
+      width: 100%;
+      padding: 0.75rem;
+      background: transparent;
+      border: 1.5px solid var(--orange);
+      color: var(--orange);
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+      text-align: center;
+    }
+    .btn-inquire:hover {
+      background: var(--orange);
+      color: #fff;
+    }
+
+    /* FORM */
+    .form-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .form-inner {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 4rem 2rem;
+    }
+    .form-title {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 2.5rem);
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+    .form-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+    .field-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 540px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+    .field {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      margin-bottom: 1.25rem;
+    }
+    .field label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .field label span.req { color: var(--orange); }
+    .field input,
+    .field textarea,
+    .field select {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      padding: 0.65rem 0.9rem;
+      transition: border-color 0.2s;
+      outline: none;
+      width: 100%;
+    }
+    .field input:focus,
+    .field textarea:focus,
+    .field select:focus {
+      border-color: var(--orange);
+    }
+    .field input::placeholder,
+    .field textarea::placeholder {
+      color: #4a5a68;
+    }
+    .field select option { background: var(--bg); }
+    .field textarea { resize: vertical; min-height: 90px; }
+
+    .fieldset-label {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 0.75rem;
+    }
+    .time-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    @media (max-width: 540px) {
+      .time-grid { grid-template-columns: 1fr; }
+    }
+
+    /* Checkbox */
+    .checkbox-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      cursor: pointer;
+    }
+    .checkbox-row input[type="checkbox"] {
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--bg);
+      cursor: pointer;
+      flex-shrink: 0;
+      position: relative;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    .checkbox-row input[type="checkbox"]:checked {
+      background: var(--orange);
+      border-color: var(--orange);
+    }
+    .checkbox-row input[type="checkbox"]:checked::after {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 2px;
+      width: 7px;
+      height: 11px;
+      border: 2px solid #fff;
+      border-top: none;
+      border-left: none;
+      transform: rotate(45deg);
+    }
+    .checkbox-row label {
+      font-size: 0.95rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    .delivery-fields {
+      display: none;
+      background: rgba(245,96,10,0.06);
+      border: 1px solid rgba(245,96,10,0.25);
+      border-radius: 6px;
+      padding: 1.25rem;
+      margin-bottom: 1.25rem;
+    }
+    .delivery-fields.visible { display: block; }
+    .delivery-fields .field { margin-bottom: 0.75rem; }
+    .delivery-fields .field:last-child { margin-bottom: 0; }
+
+    /* Item select highlight */
+    .item-select-group {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+    .item-chip {
+      padding: 0.5rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 99px;
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: transparent;
+      color: var(--muted);
+      transition: all 0.2s;
+    }
+    .item-chip.selected {
+      border-color: var(--orange);
+      color: var(--orange);
+      background: rgba(245,96,10,0.08);
+    }
+
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--orange);
+      border: none;
+      border-radius: 4px;
+      color: #fff;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: background 0.2s;
+      margin-top: 0.5rem;
+    }
+    .btn-submit:hover { background: var(--orange-dim); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .form-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    /* SUCCESS */
+    #success-msg {
+      display: none;
+      background: rgba(34,197,94,0.1);
+      border: 1px solid rgba(34,197,94,0.35);
+      border-radius: 6px;
+      padding: 1.5rem;
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+    #success-msg.visible { display: block; }
+    #success-msg h3 {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 0.4rem;
+      color: #4ade80;
+    }
+    #success-msg p { color: var(--muted); font-size: 0.9rem; }
+
+    /* ERROR */
+    .error-msg {
+      display: none;
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.3);
+      border-radius: 4px;
+      padding: 0.75rem 1rem;
+      font-size: 0.85rem;
+      color: #f87171;
+      margin-bottom: 1rem;
+    }
+    .error-msg.visible { display: block; }
+
+    /* FOOTER */
+    footer {
+      padding: 2.5rem 2rem;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      border-top: 1px solid var(--border);
+    }
+    footer strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Peak<span>Power</span> Rentals</div>
+  <div class="nav-links">
+    <a href="#equipment">Equipment</a>
+    <a href="#inquire">Pricing</a>
+    <a href="#inquire" class="nav-cta">Request Rental</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-eyebrow">Boulder County, CO · Pickup &amp; Delivery Available</div>
+  <h1>Power When<br>You <span class="flicker">Need</span> It</h1>
+  <p>Portable generators and power banks for events, job sites, camping, and emergencies — delivered to your door or ready for pickup.</p>
+  <div class="hero-badges">
+    <div class="badge">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M8 1a7 7 0 1 0 0 14A7 7 0 0 0 8 1zm0 1a6 6 0 1 1 0 12A6 6 0 0 1 8 2zm.5 3.5v3.25l2.6 1.5-.5.87L7.5 9.3V5.5h1z"/></svg>
+      Same-day available
+    </div>
+    <div class="badge">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M1 3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v1H1V3zm0 3h14v7a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6z"/></svg>
+      Local Boulder County
+    </div>
+    <div class="badge">
+      <svg width="12" height="12" fill="currentColor" viewBox="0 0 16 16"><path d="M13.5 1a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>
+      Flexible rental windows
+    </div>
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- EQUIPMENT -->
+<section class="section" id="equipment">
+  <div class="section-label">What We Rent</div>
+  <div class="section-title">Available Equipment</div>
+
+  <div class="equipment-grid">
+
+    <!-- Predator 3500 Generator -->
+    <div class="eq-card" style="max-width:520px;">
+      <div class="eq-img-placeholder">
+        <svg width="80" height="80" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="10" y="28" width="60" height="32" rx="4" fill="#2e3a45"/>
+          <rect x="18" y="36" width="20" height="16" rx="2" fill="#1a232b"/>
+          <circle cx="54" cy="44" r="10" fill="#1a232b" stroke="#f5600a" stroke-width="2"/>
+          <circle cx="54" cy="44" r="5" fill="#f5600a" opacity="0.4"/>
+          <circle cx="54" cy="44" r="2" fill="#f5600a"/>
+          <rect x="36" y="36" width="8" height="6" rx="1" fill="#f5600a" opacity="0.7"/>
+          <rect x="14" y="60" width="10" height="6" rx="2" fill="#2e3a45"/>
+          <rect x="56" y="60" width="10" height="6" rx="2" fill="#2e3a45"/>
+          <path d="M40 18 L36 28 H44 L38 42" stroke="#f5600a" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </div>
+      <div class="eq-body">
+        <div class="eq-tag">Fleet Available · Multiple Units</div>
+        <div class="eq-name">Predator 3500</div>
+        <p class="eq-desc">Ultra-quiet, fuel-efficient inverter generator — ideal for camping, events, job sites, and power outages. We have multiple units available, so don't hesitate to ask about renting more than one.</p>
+        <div class="eq-specs">
+          <div class="eq-spec">
+            <span class="eq-spec-label">Starting Watts</span>
+            <span class="eq-spec-value">3,500 W</span>
+          </div>
+          <div class="eq-spec">
+            <span class="eq-spec-label">Running Watts</span>
+            <span class="eq-spec-value">3,000 W</span>
+          </div>
+          <div class="eq-spec">
+            <span class="eq-spec-label">Noise Level</span>
+            <span class="eq-spec-value">Ultra-quiet inverter</span>
+          </div>
+          <div class="eq-spec">
+            <span class="eq-spec-label">Fuel</span>
+            <span class="eq-spec-value">Gasoline (not included)</span>
+          </div>
+        </div>
+        <button class="btn-inquire" onclick="prefillItem('Generator')">Inquire About Generator →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider" />
+
+<!-- FORM -->
+<section class="form-section" id="inquire">
+  <div class="form-inner">
+    <div class="section-label">Get a Quote</div>
+    <div class="form-title">Request a Rental</div>
+    <p class="form-sub">Fill out the form below and we'll confirm availability and pricing within a few hours.</p>
+
+    <div class="error-msg" id="form-error"></div>
+
+    <form id="rental-form" novalidate>
+
+      <!-- Item selection -->
+      <div class="fieldset-label">What are you renting? <span style="color:var(--orange)">*</span></div>
+      <div class="item-select-group" id="item-chips">
+        <button type="button" class="item-chip" onclick="selectItem(this, 'Predator 3500 Generator')">⚡ Predator 3500 Generator</button>
+      </div>
+      <input type="hidden" id="selected-item" name="item" />
+
+      <!-- Name -->
+      <div class="field-row">
+        <div class="field">
+          <label for="first-name">First Name <span class="req">*</span></label>
+          <input type="text" id="first-name" name="first_name" placeholder="Jane" required />
+        </div>
+        <div class="field">
+          <label for="last-name">Last Name <span class="req">*</span></label>
+          <input type="text" id="last-name" name="last_name" placeholder="Smith" required />
+        </div>
+      </div>
+
+      <!-- Contact -->
+      <div class="field-row">
+        <div class="field">
+          <label for="phone">Phone Number <span class="req">*</span></label>
+          <input type="tel" id="phone" name="phone" placeholder="(303) 555-0100" required />
+        </div>
+        <div class="field">
+          <label for="email">Email <span class="req">*</span></label>
+          <input type="email" id="email" name="email" placeholder="jane@example.com" required />
+        </div>
+      </div>
+
+      <!-- Pickup / dropoff -->
+      <div class="fieldset-label" style="margin-bottom:0.75rem;">Pickup &amp; Drop-off <span style="color:var(--orange)">*</span></div>
+      <div class="time-grid" style="margin-bottom:1.25rem;">
+        <div class="field" style="margin-bottom:0;">
+          <label for="pickup-date">Pickup Date</label>
+          <input type="date" id="pickup-date" name="pickup_date" required />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="pickup-time">Pickup Time</label>
+          <input type="time" id="pickup-time" name="pickup_time" required />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="dropoff-date">Drop-off Date</label>
+          <input type="date" id="dropoff-date" name="dropoff_date" required />
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label for="dropoff-time">Drop-off Time</label>
+          <input type="time" id="dropoff-time" name="dropoff_time" required />
+        </div>
+      </div>
+
+      <!-- Delivery -->
+      <label class="checkbox-row">
+        <input type="checkbox" id="delivery-check" onchange="toggleDelivery(this)" />
+        <span>I need delivery (instead of pickup &amp; drop-off)</span>
+      </label>
+
+      <div class="delivery-fields" id="delivery-fields">
+        <div class="field">
+          <label for="delivery-address">Street Address <span class="req">*</span></label>
+          <input type="text" id="delivery-address" name="delivery_address" placeholder="1234 Canyon Blvd" />
+        </div>
+        <div class="field-row" style="margin-bottom:0;">
+          <div class="field" style="margin-bottom:0;">
+            <label for="delivery-city">City</label>
+            <input type="text" id="delivery-city" name="delivery_city" placeholder="Boulder" />
+          </div>
+          <div class="field" style="margin-bottom:0;">
+            <label for="delivery-zip">ZIP Code</label>
+            <input type="text" id="delivery-zip" name="delivery_zip" placeholder="80302" />
+          </div>
+        </div>
+      </div>
+
+      <!-- Intended use -->
+      <div class="field">
+        <label for="use-case">What do you need it for?</label>
+        <textarea id="use-case" name="use_case" placeholder="e.g. camping trip, outdoor wedding, job site, power outage backup…"></textarea>
+      </div>
+
+      <button type="submit" class="btn-submit" id="submit-btn">Submit Rental Request</button>
+      <p class="form-note">No payment collected here — we'll follow up to confirm details and pricing.</p>
+
+      <div id="success-msg">
+        <h3>✓ Request Received!</h3>
+        <p>We'll be in touch within a few hours to confirm availability and send pricing. Check your email.</p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <strong>Peak Power Rentals</strong> · Boulder County, CO<br>
+  <span style="margin-top:0.4rem;display:block;">Questions? Text or call us — contact info coming soon.</span>
+</footer>
+
+<script>
+  // ── Item chip selection ──────────────────────────────────────────────
+  function selectItem(el, value) {
+    document.querySelectorAll('.item-chip').forEach(c => c.classList.remove('selected'));
+    el.classList.add('selected');
+    document.getElementById('selected-item').value = value;
+  }
+
+  function prefillItem(value) {
+    document.querySelectorAll('.item-chip').forEach(c => {
+      c.classList.toggle('selected', c.textContent.includes(value));
+    });
+    document.getElementById('selected-item').value = value;
+    document.getElementById('inquire').scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // ── Delivery toggle ──────────────────────────────────────────────────
+  function toggleDelivery(cb) {
+    const fields = document.getElementById('delivery-fields');
+    fields.classList.toggle('visible', cb.checked);
+    // Make pickup/dropoff optional when delivery is selected
+    const pickupInputs = ['pickup-date','pickup-time','dropoff-date','dropoff-time'];
+    pickupInputs.forEach(id => {
+      document.getElementById(id).required = !cb.checked;
+    });
+  }
+
+  // ── Form submission ──────────────────────────────────────────────────
+  document.getElementById('rental-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const errorEl = document.getElementById('form-error');
+    errorEl.classList.remove('visible');
+
+    // Basic validation
+    const item    = document.getElementById('selected-item').value;
+    const first   = document.getElementById('first-name').value.trim();
+    const last    = document.getElementById('last-name').value.trim();
+    const phone   = document.getElementById('phone').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const delivery = document.getElementById('delivery-check').checked;
+
+    if (!item)  { showError('Please select an item to rent.'); return; }
+    if (!first || !last) { showError('Please enter your full name.'); return; }
+    if (!phone) { showError('Please enter a phone number.'); return; }
+    if (!email) { showError('Please enter an email address.'); return; }
+
+    const payload = {
+      item,
+      first_name:       first,
+      last_name:        last,
+      phone,
+      email,
+      pickup_date:      document.getElementById('pickup-date').value,
+      pickup_time:      document.getElementById('pickup-time').value,
+      dropoff_date:     document.getElementById('dropoff-date').value,
+      dropoff_time:     document.getElementById('dropoff-time').value,
+      delivery,
+      delivery_address: document.getElementById('delivery-address').value.trim(),
+      delivery_city:    document.getElementById('delivery-city').value.trim(),
+      delivery_zip:     document.getElementById('delivery-zip').value.trim(),
+      use_case:         document.getElementById('use-case').value.trim(),
+      submitted_at:     new Date().toISOString(),
+    };
+
+    const btn = document.getElementById('submit-btn');
+    btn.disabled = true;
+    btn.textContent = 'Sending…';
+
+    try {
+      const res = await fetch('/api/inquire', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || 'Server error. Please try again.');
+      }
+
+      document.getElementById('rental-form').style.opacity = '0.4';
+      document.getElementById('rental-form').style.pointerEvents = 'none';
+      document.getElementById('success-msg').classList.add('visible');
+      document.getElementById('success-msg').scrollIntoView({ behavior: 'smooth' });
+    } catch (err) {
+      showError(err.message);
+      btn.disabled = false;
+      btn.textContent = 'Submit Rental Request';
+    }
+  });
+
+  function showError(msg) {
+    const el = document.getElementById('form-error');
+    el.textContent = msg;
+    el.classList.add('visible');
+    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+</script>
+</body>
+</html>
